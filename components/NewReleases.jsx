@@ -1,22 +1,50 @@
-import { View, Text, FlatList, Image, StyleSheet, TouchableOpacity } from "react-native";
-import React from "react";
+import {
+  View,
+  Text,
+  FlatList,
+  Image,
+  StyleSheet,
+  TouchableOpacity,
+  ActivityIndicator,
+} from "react-native";
+import React, { useState } from "react";
 import SectionContainer from "./SectionContainer";
 import NewReleaseCard from "./NewReleaseCard";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 
 const NewReleases = () => {
+  const queryClient = useQueryClient();
+
+  const fetchNewreleases = async () => {
+    const res = await fetch("https://musica-api.up.railway.app/new").then(
+      (res) => res.json()
+    );
+    return res;
+  };
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["newReleases"],
+    queryFn: fetchNewreleases,
+  });
+
+
   return (
     <SectionContainer title={"New Releases"}>
-      <FlatList
-        contentContainerStyle={styles.listContainer}
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        data={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
-        renderItem={(item) => (
-          <TouchableOpacity>
-            <NewReleaseCard/>
-          </TouchableOpacity>
-        )}
-      />
+      {isLoading ? (
+        <ActivityIndicator size={"small"} color={"#FFF"} />
+      ) : (
+        <FlatList
+          contentContainerStyle={styles.listContainer}
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          data={data}
+          renderItem={(item) => (
+            <TouchableOpacity>
+              <NewReleaseCard data={item}/>
+            </TouchableOpacity>
+          )}
+        />
+      )}
     </SectionContainer>
   );
 };

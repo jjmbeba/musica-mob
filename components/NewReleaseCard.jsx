@@ -3,7 +3,7 @@ import React from 'react'
 import { useFonts } from "expo-font";
 import { Quicksand_400Regular } from "@expo-google-fonts/quicksand";
 
-const NewReleaseCard = () => {
+const NewReleaseCard = (item) => {
 
     let [fontsLoaded] = useFonts({
         Quicksand_400Regular,
@@ -13,16 +13,18 @@ const NewReleaseCard = () => {
         return null;
       }
 
+      const {artist, cover, title} = item.data.item;
+
   return (
     <View style={styles.itemContainer}>
             <Image
               style={styles.image}
               source={{
-                uri: "https://images.unsplash.com/photo-1679592098614-ae83589aa91a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=387&q=80",
+                uri: cover
               }}
             />
-            <Text style={styles.title}>Life in a bubble</Text>
-            <Text style={styles.artist}>The van</Text>
+            <Text style={styles.title}>{title}</Text>
+            <Text style={styles.artist}>{artist}</Text>
           </View>
   )
 }

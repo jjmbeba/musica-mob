@@ -7,24 +7,30 @@ import TopCharts from "./components/TopCharts";
 import NewReleases from "./components/NewReleases";
 import { useState } from "react";
 import Sidemenu from "./components/Sidemenu";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 export default function App() {
+
+  const queryClient = new QueryClient();
+
   const [menuState, setMenuState] = useState(false);
 
   return (
-    <SafeAreaView style={styles.container}>
-      {menuState ? (
-        <Sidemenu setMenuState={setMenuState}/>
-      ) : (
-        <ScrollView showsVerticalScrollIndicator={false}>
-          <Navbar setMenuState={setMenuState} />
-          <Hero />
-          <TopCharts />
-          <NewReleases />
-          <StatusBar style="auto" />
-        </ScrollView>
-      )}
-    </SafeAreaView>
+    <QueryClientProvider client={queryClient}>
+      <SafeAreaView style={styles.container}>
+        {menuState ? (
+          <Sidemenu setMenuState={setMenuState} />
+        ) : (
+          <ScrollView showsVerticalScrollIndicator={false}>
+            <Navbar setMenuState={setMenuState} />
+            <Hero />
+            <TopCharts />
+            <NewReleases />
+            <StatusBar style="auto" />
+          </ScrollView>
+        )}
+      </SafeAreaView>
+    </QueryClientProvider>
   );
 }
 

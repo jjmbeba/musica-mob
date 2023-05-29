@@ -4,7 +4,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useFonts } from "expo-font";
 import { Quicksand_400Regular } from "@expo-google-fonts/quicksand";
 
-const TopChartCard = () => {
+const TopChartCard = (item) => {
   let [fontsLoaded] = useFonts({
     Quicksand_400Regular,
   });
@@ -13,12 +13,15 @@ const TopChartCard = () => {
     return null;
   }
 
+  const {artist, cover, title, duration} = item.data.item;
+
+
   return (
     <View style={styles.container}>
       <View style={styles.imageContainer}>
         <Image
           source={{
-            uri: "https://images.unsplash.com/photo-1679592098614-ae83589aa91a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=387&q=80",
+            uri: cover,
           }}
           style={styles.image}
         />
@@ -26,9 +29,9 @@ const TopChartCard = () => {
           <Ionicons name="md-heart-outline" size={24} color="#FACD66" />
         </View>
       </View>
-      <Text style={styles.title}>Golden age of 80s</Text>
-      <Text style={styles.subtitle}>Sean swadder</Text>
-      <Text style={styles.time}>2:34:45</Text>
+      <Text style={styles.title}>{title}</Text>
+      <Text style={styles.subtitle}>{artist}</Text>
+      <Text style={styles.time}>{duration}</Text>
     </View>
   );
 };
